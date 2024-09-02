@@ -1,0 +1,23 @@
+name: Deploy my app 
+
+jobs: 
+
+  - steps: Init vars
+    run: |
+      export REPLICAS = env == 'prod' ? 8 : 4
+
+  - steps:
+    if: env == 'dev'
+    uses: jetpack-internal/cicd/github/workflows/deploy-nodejs@main
+    with: 
+      replicas: 4
+      namespaces: myapp
+
+ - steps:
+    if: env == 'prod'
+    uses: jetpack-internal/cicd/github/workflows/deploy-nodejs@main
+    with: 
+      replicas: 8
+      namespaces: myapp
+      .....
+  .....
